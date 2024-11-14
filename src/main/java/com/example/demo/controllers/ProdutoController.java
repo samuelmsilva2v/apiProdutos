@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dtos.ProdutoRequestDto;
+import com.example.demo.dtos.ProdutoResponseDto;
 import com.example.demo.services.ProdutoService;
 
 @RestController
@@ -17,7 +18,7 @@ public class ProdutoController {
 	private ProdutoService produtoService;
 	
 	@PostMapping
-	public String post(@RequestBody ProdutoRequestDto request) {
+	public ProdutoResponseDto post(@RequestBody ProdutoRequestDto request) {
 		return produtoService.create(request);
 	}
 }
