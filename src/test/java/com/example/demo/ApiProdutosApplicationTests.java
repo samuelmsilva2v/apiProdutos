@@ -1,6 +1,7 @@
 package com.example.demo;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.demo.dtos.ProdutoRequestDto;
+import com.example.demo.dtos.ProdutoResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 
@@ -49,7 +51,13 @@ class ApiProdutosApplicationTests {
 		
 		var content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		
-		assertTrue(content.contains("Produto cadastrado com sucesso!"));
+		var response = objectMapper.readValue(content, ProdutoResponseDto.class);
+		
+		//checking if the response data match those of the request
+		assertNotNull(response.getId()); //checking if an ID was generated for the product
+		assertEquals(response.getNome(), request.getNome()); //comparing the name
+		assertEquals(response.getPreco(), request.getPreco()); //comparing the price
+		assertEquals(response.getQuantidade(), request.getQuantidade()); //comparing the quantity
 	}
 
 	@Test
