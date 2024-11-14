@@ -10,6 +10,8 @@ import com.example.demo.dtos.ProdutoRequestDto;
 import com.example.demo.dtos.ProdutoResponseDto;
 import com.example.demo.services.ProdutoService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutoController {
@@ -18,7 +20,7 @@ public class ProdutoController {
 	private ProdutoService produtoService;
 	
 	@PostMapping
-	public ProdutoResponseDto post(@RequestBody ProdutoRequestDto request) {
+	public ProdutoResponseDto post(@RequestBody @Valid ProdutoRequestDto request) {
 		return produtoService.create(request);
 	}
 }
