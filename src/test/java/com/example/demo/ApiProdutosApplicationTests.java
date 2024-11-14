@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.demo.dtos.ProdutoRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.javafaker.Faker;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,11 +35,13 @@ class ApiProdutosApplicationTests {
 	@Test
 	@Order(1)
 	void cadastrarProdutoTest() throws Exception {
+		
+		var faker = new Faker(Locale.forLanguageTag("pt-br"));	
 
 		var request = new ProdutoRequestDto();
-		request.setNome("Produto Nome");
-		request.setPreco(1000.0);
-		request.setQuantidade(10);
+		request.setNome(faker.commerce().productName());
+		request.setPreco((double) faker.number().numberBetween(100, 5000));
+		request.setQuantidade(faker.number().numberBetween(10, 500));
 
 		var result = mockMvc.perform(
 				post("/api/produtos").contentType("application/json").content(objectMapper.writeValueAsString(request)))
