@@ -33,6 +33,12 @@ API RESTful desenvolvida em Spring Boot que fornece um CRUD para gerenciamento d
 }
 ```
 
+## Testes
+#### Executando os testes
+```bash
+mvn test
+```
+
 ## Instalação
 
 #### Requisitos
