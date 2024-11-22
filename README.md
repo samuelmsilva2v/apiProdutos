@@ -61,7 +61,7 @@ mvn test
 ./mvnw spring-boot:run
 ```
 
-### 5. Acesse a aplicação:
+#### 4. Acesse a aplicação:
   - Documentação da API: http://localhost:8080/swagger-ui/index.html
 
 ### Autor
