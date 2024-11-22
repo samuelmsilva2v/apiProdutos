@@ -19,66 +19,69 @@ public class ProdutoService {
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	public ProdutoResponseDto create(ProdutoRequestDto request) {
-		
+
 		var produto = modelMapper.map(request, Produto.class);
 		produto.setId(UUID.randomUUID());
-		
+
 		produtoRepository.save(produto);
-		
+
 		var response = modelMapper.map(produto, ProdutoResponseDto.class);
-		
+
 		return response;
 	}
-	
+
 	public ProdutoResponseDto update(UUID id, ProdutoRequestDto request) {
-		
-		var produto = produtoRepository.findById(id).get();
+
+		var produto = produtoRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Produto não encontrado."));
+
 		produto.setNome(request.getNome());
 		produto.setPreco(BigDecimal.valueOf(request.getPreco()));
 		produto.setQuantidade(request.getQuantidade());
-		
+
 		produtoRepository.save(produto);
-		
+
 		var response = modelMapper.map(produto, ProdutoResponseDto.class);
-		
+
 		return response;
 	}
-	
+
 	public ProdutoResponseDto delete(UUID id) {
-		
-		var produto = produtoRepository.findById(id).get();
-		
+
+		var produto = produtoRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Produto não encontrado."));
+
 		produtoRepository.delete(produto);
-		
+
 		var response = modelMapper.map(produto, ProdutoResponseDto.class);
-		
+
 		return response;
 	}
-	
+
 	public List<ProdutoResponseDto> getAll() {
-		
+
 		var response = new ArrayList<ProdutoResponseDto>();
-		
-		for(var produto : produtoRepository.findAll()) {
+
+		for (var produto : produtoRepository.findAll()) {
 			response.add(modelMapper.map(produto, ProdutoResponseDto.class));
 		}
-		
+
 		return response;
 	}
-	
+
 	public ProdutoResponseDto getById(UUID id) {
-		
-		var produto = produtoRepository.findById(id).get();
-		
+
+		var produto = produtoRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Produto não encontrado."));
+
 		var response = modelMapper.map(produto, ProdutoResponseDto.class);
-		
+
 		return response;
 	}
-	
-	
+
 }
