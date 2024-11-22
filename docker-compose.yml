@@ -1,0 +1,32 @@
+#Configurando uma rede para conectar os conteiners
+networks:
+   apiprodutos-network: 
+      driver: bridge 
+
+#Configurando os serviços / conteiners
+services:
+ api-produtos:
+  build:
+   context: . 
+   dockerfile: Dockerfile
+  ports:
+   - "8082:8082"
+  networks:
+   - apiprodutos-network
+  depends_on:
+   - postgres
+   
+ postgres: 
+  image: postgres:latest
+  environment: 
+   POSTGRES_USER: postgres
+   POSTGRES_PASSWORD: password
+   POSTGRES_DB: bd_apiprodutos
+  ports:
+   - "5432:5432"
+  networks:
+   - apiprodutos-network
+  
+
+
+   
